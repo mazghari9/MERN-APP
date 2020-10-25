@@ -18,10 +18,13 @@ export default class Find extends Component {
     super(props);
 
     this.onChangeBookName = this.onChangeBookName.bind(this);
+    this.onChangeBookName = this.onChangeBookName.bind(this);
+    this.onChangeBookName = this.onChangeBookName.bind(this);
+    this.onChangeBookName = this.onChangeBookName.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      
+      u: [],
       upload: [],
     }
   }
@@ -31,6 +34,7 @@ export default class Find extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
+            u:response.data,
             upload: response.data.map(upload => upload.book_name),
             book_name: response.data[0].book_name
           })
@@ -44,30 +48,33 @@ export default class Find extends Component {
 
   onChangeBookName(e) {
     this.setState({
-      book_name: e.target.value,
-      author: e.target.value
+      book_name: e.target.value    
     })
+    console.log('aafffaa')
   }
 
 
-  onSubmit(e) {
+  onSubmit= async (e) =>{
     e.preventDefault();
 
-    
-
-        this.state.author=this.state.book_name;
-          
+  
+    for(var i=0;i<this.state.u.length;i++){
+      if(this.state.u[i].book_name===this.state.book_name){
+            this.state.book_name2=this.state.u[i].book_name;
+            console.log('1')
+            this.state.author=this.state.u[i].author;
+            console.log(2)
+            this.state.number_of_pages=this.state.u[i].number_of_pages;
+            console.log(3)
+            this.state.date_of_release=this.state.u[i].date_of_release;
+            console.log('4')
         
-       
-
+      }
+    }
   }
 
 
-  uploadsList() {
-    return this.state.upload.find({}, { projection: { book_name: this.onChangeBookName} }).map(currentupload => {
-      return <Upload uploads={currentupload}/>;
-    })
-  }
+  
     
     
 
@@ -108,10 +115,10 @@ export default class Find extends Component {
             </tr>
           </thead>
           <tbody>
-            <td value={this.state.book_name}></td>
-            <td value={this.state.author}></td>
-            <td value={this.state.number_of_pages}></td>
-            <td value={this.state.date_of_release}></td>
+            <td>{this.state.book_name2}</td>
+            <td>{this.state.author}</td>
+            <td>{this.state.number_of_pages}</td>
+            <td>{this.state.date_of_release}</td>
           </tbody>
         </table>
         </div>
